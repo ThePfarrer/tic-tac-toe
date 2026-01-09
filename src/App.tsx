@@ -34,20 +34,18 @@ function Board({
   }
 
   const winner = calculateWinner(squares);
-  let status;
-  if (winner) {
-    status = `Game Over: ${winner} won`;
-  } else {
-    status = `Next player: ${xIsNext ? "X" : "O"}`;
-  }
+  const status: string = winner
+    ? `Game Over: ${winner} won`
+    : `Next player: ${xIsNext ? "X" : "O"}`;
 
   return (
     <>
       <div className="status">{status}</div>
       {Array.from({ length: 3 }).map((_, i) => (
-        <div className="board-row">
+        <div className="board-row" key={`row-${i}`}>
           {Array.from({ length: 3 }).map((_, j) => (
             <Square
+              key={`cell-${i}-${j}`}
               value={squares[i * 3 + j]}
               onSquareClick={() => handleClick(i * 3 + j)}
             />
@@ -78,7 +76,11 @@ export default function Game() {
     let description = move > 0 ? `Go to move #${move}` : `Go to game start`;
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+        {currentMove === move ? (
+          <p>You are at move #{currentMove}</p>
+        ) : (
+          <button onClick={() => jumpTo(move)}>{description}</button>
+        )}
       </li>
     );
   });
