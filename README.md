@@ -1,73 +1,107 @@
-# React + TypeScript + Vite
+# Tic Tac Toe Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A classic Tic Tac Toe game built with React and TypeScript. This project was created to learn React and TypeScript by following the official React learning tutorial.
 
-Currently, two official plugins are available:
+## About
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This is a learning project that implements the traditional Tic Tac Toe game with a clean, interactive user interface. The project demonstrates key React concepts and showcases the benefits of using TypeScript for type safety in a React application.
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Interactive Gameplay**: Play against another player on the same device
+- **Game State Management**: Track moves and determine winners
+- **Responsive Design**: Works on desktop browsers
+- **TypeScript**: Full type safety for React components
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React** (v19) - UI library
+- **TypeScript** (v5.9) - Type-safe JavaScript
+- **Vite** - Fast build tool and dev server
+- **ESLint** - Code linting for code quality
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Prerequisites
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js and npm installed on your system
+
+### Installation
+
+1. Clone or download this project
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+### Development
+
+Start the development server:
+
+```bash
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The application will be available at `http://localhost:5173`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Build
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Build for production:
+
+```bash
+npm run build
 ```
+
+### Preview
+
+Preview the production build locally:
+
+```bash
+npm run preview
+```
+
+## Project Structure
+
+```
+src/
+├── main.tsx          # Entry point
+├── App.tsx           # Main application component
+├── Board.tsx         # Game board component
+├── Square.tsx        # Individual square component
+└── styles.css        # Styling
+```
+
+## Component Overview
+
+- **App**: Root component managing the overall game logic
+- **Board**: Renders the game grid and handles game state
+- **Square**: Individual clickable square on the board
+
+## Learning Goals
+
+This project was created to practice:
+
+- React component structure and composition
+- TypeScript type definitions in React
+- State management with hooks
+- Event handling in React
+- Building interactive user interfaces
+
+## How to Play
+
+1. Players take turns clicking empty squares
+2. X always goes first
+3. The first player to get three in a row (horizontally, vertically, or diagonally) wins
+4. If all squares are filled with no winner, the game is a draw
+
+## Code Quality
+
+Run ESLint to check code quality:
+
+```bash
+npm run lint
+```
+
+## License
+
+This is a learning project created for educational purposes.
