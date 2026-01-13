@@ -9,7 +9,7 @@ export const Board = ({
   xIsNext: boolean;
   squares: string[];
   countMoves: number;
-  onPlay: (nextSquares: string[]) => void;
+  onPlay: (nextSquares: string[], location: number) => void;
 }) => {
   const handleClick = (i: number) => {
     if (squares[i] || calculateWinner(squares)) return;
@@ -18,11 +18,11 @@ export const Board = ({
 
     nextSquares[i] = xIsNext ? "X" : "O";
 
-    onPlay(nextSquares);
+    onPlay(nextSquares, i);
   };
 
   const winner = calculateWinner(squares);
-  let status;
+  let status: string;
 
   if (winner) {
     status = `Game Over: ${winner} won`;
@@ -31,10 +31,6 @@ export const Board = ({
   } else {
     status = `Next player: ${xIsNext ? "X" : "O"}`;
   }
-
-  // const status: string = winner
-  //   ? `Game Over: ${winner} won`
-  //   : `Next player: ${xIsNext ? "X" : "O"}`;
 
   return (
     <>

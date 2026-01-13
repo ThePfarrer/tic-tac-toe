@@ -1,15 +1,25 @@
 import { useState } from "react";
 import { Board } from "./Board";
 
+type HistoryEntry = {
+  squares: string[];
+  location?: number;
+};
+
 export default function Game() {
-  const [history, setHistory] = useState<string[][]>([Array(9).fill("")]);
+  const [history, setHistory] = useState<HistoryEntry[]>([
+    { squares: Array(9).fill(""), location: undefined },
+  ]);
   const [currentMove, setCurrentMove] = useState(0);
   const [isAscending, setIsAscending] = useState(true);
   const xIsNext = currentMove % 2 === 0;
-  const currentSquares = history[currentMove];
+  const currentSquares = history[currentMove].squares;
 
-  function handlePlay(nextSquares: string[]) {
-    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+  function handlePlay(nextSquares: string[], location: number) {
+    const nextHistory = [
+      ...history.slice(0, currentMove + 1),
+      { squares: nextSquares, location },
+    ];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
   }
@@ -18,14 +28,24 @@ export default function Game() {
     setCurrentMove(nextMove);
   }
 
-  const moves = history.map((_, move) => {
+  const moves = history.map((entry, move) => {
     let description = move > 0 ? `Go to move #${move}` : `Go to game start`;
+    const row = entry.location !== undefined ? Math.floor(entry.location / 3) : null;
+    const col = entry.location !== undefined ? entry.location % 3 : null;
+    
     return (
       <li key={move}>
         {currentMove === move ? (
           <p>You are at move #{currentMove}</p>
         ) : (
-          <button onClick={() => jumpTo(move)}>{description}</button>
+          <>
+            <p>
+              <button onClick={() => jumpTo(move)}>{description}</button>{" "}
+              {row !== null && col !== null && (
+                <><strong>Location:</strong> ({row}, {col})</>
+              )}
+            </p>
+          </>
         )}
       </li>
     );
@@ -45,7 +65,12 @@ export default function Game() {
         </button>
       </div>
       <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} countMoves={currentMove} />
+        <Board
+          xIsNext={xIsNext}
+          squares={currentSquares}
+          onPlay={handlePlay}
+          countMoves={currentMove}
+        />
       </div>
       <div className="game-info">
         <ol>{sortedMoves}</ol>
