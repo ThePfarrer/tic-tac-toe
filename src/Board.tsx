@@ -12,7 +12,7 @@ export const Board = ({
   onPlay: (nextSquares: string[], location: number) => void;
 }) => {
   const handleClick = (i: number) => {
-    if (squares[i] || calculateWinner(squares)) return;
+    if (squares[i] || calculateWinner(squares).winner) return;
 
     const nextSquares = squares.slice();
 
@@ -21,7 +21,7 @@ export const Board = ({
     onPlay(nextSquares, i);
   };
 
-  const winner = calculateWinner(squares);
+  const { winner, line } = calculateWinner(squares);
   let status: string;
 
   if (winner) {
@@ -37,13 +37,18 @@ export const Board = ({
       <div className="status">{status}</div>
       {Array.from({ length: 3 }, (_, i) => (
         <div className="board-row" key={`row-${i}`}>
-          {Array.from({ length: 3 }, (_, j) => (
-            <Square
-              key={`cell-${i}-${j}`}
-              value={squares[i * 3 + j]}
-              onSquareClick={() => handleClick(i * 3 + j)}
-            />
-          ))}
+          {Array.from({ length: 3 }, (_, j) => {
+            const index = i * 3 + j;
+            const isWinningSquare = line?.includes(index);
+            return (
+              <Square
+                key={`cell-${i}-${j}`}
+                value={squares[index]}
+                onSquareClick={() => handleClick(index)}
+                isWinning={isWinningSquare}
+              />
+            );
+          })}
         </div>
       ))}
     </>
@@ -65,8 +70,8 @@ const calculateWinner = (squares: string[]) => {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return { winner: squares[a], line: lines[i] };
     }
   }
-  return;
+  return { winner: null, line: null };
 };
