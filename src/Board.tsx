@@ -11,8 +11,10 @@ export const Board = ({
   countMoves: number;
   onPlay: (nextSquares: string[], location: number) => void;
 }) => {
+  const { winner, line } = calculateWinner(squares);
+  
   const handleClick = (i: number) => {
-    if (squares[i] || calculateWinner(squares).winner) return;
+    if (squares[i] || winner) return;
 
     const nextSquares = squares.slice();
 
@@ -20,8 +22,6 @@ export const Board = ({
 
     onPlay(nextSquares, i);
   };
-
-  const { winner, line } = calculateWinner(squares);
   let status: string;
 
   if (winner) {

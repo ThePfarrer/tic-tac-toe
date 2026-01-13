@@ -29,7 +29,7 @@ export default function Game() {
   }
 
   const moves = history.map((entry, move) => {
-    let description = move > 0 ? `Go to move #${move}` : `Go to game start`;
+    const description = move > 0 ? `Go to move #${move}` : `Go to game start`;
     const row = entry.location !== undefined ? Math.floor(entry.location / 3) : null;
     const col = entry.location !== undefined ? entry.location % 3 : null;
     
@@ -38,14 +38,12 @@ export default function Game() {
         {currentMove === move ? (
           <p>You are at move #{currentMove}</p>
         ) : (
-          <>
-            <p>
-              <button onClick={() => jumpTo(move)}>{description}</button>{" "}
-              {row !== null && col !== null && (
-                <><strong>Location:</strong> ({row}, {col})</>
-              )}
-            </p>
-          </>
+          <p>
+            <button onClick={() => jumpTo(move)}>{description}</button>{" "}
+            {row !== null && col !== null && (
+              <span><strong>Location:</strong> ({row}, {col})</span>
+            )}
+          </p>
         )}
       </li>
     );

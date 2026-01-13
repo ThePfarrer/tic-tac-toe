@@ -25,7 +25,6 @@ body {
 
 .square.winning {
   background-color: #90ee90;
-  font-weight: bold;
 }
 
 .board-row:after {
