@@ -17,13 +17,15 @@ function Square({
 function Board({
   xIsNext,
   squares,
+  countMoves,
   onPlay,
 }: {
   xIsNext: boolean;
   squares: string[];
+  countMoves: number;
   onPlay: (nextSquares: string[]) => void;
 }) {
-  function handleClick(i: number) {
+  const handleClick = (i: number) => {
     if (squares[i] || calculateWinner(squares)) return;
 
     const nextSquares = squares.slice();
@@ -31,19 +33,29 @@ function Board({
     nextSquares[i] = xIsNext ? "X" : "O";
 
     onPlay(nextSquares);
-  }
+  };
 
   const winner = calculateWinner(squares);
-  const status: string = winner
-    ? `Game Over: ${winner} won`
-    : `Next player: ${xIsNext ? "X" : "O"}`;
+  let status;
+
+  if (winner) {
+    status = `Game Over: ${winner} won`;
+  } else if(countMoves === 9) {
+    status = `Game Over: DRAW`;
+  } else {
+    status = `Next player: ${xIsNext ? "X" : "O"}`;
+  }
+
+  // const status: string = winner
+  //   ? `Game Over: ${winner} won`
+  //   : `Next player: ${xIsNext ? "X" : "O"}`;
 
   return (
     <>
       <div className="status">{status}</div>
-      {Array.from({ length: 3 }).map((_, i) => (
+      {Array.from({ length: 3 }, (_, i) => (
         <div className="board-row" key={`row-${i}`}>
-          {Array.from({ length: 3 }).map((_, j) => (
+          {Array.from({ length: 3 }, (_, j) => (
             <Square
               key={`cell-${i}-${j}`}
               value={squares[i * 3 + j]}
@@ -100,7 +112,7 @@ export default function Game() {
         </button>
       </div>
       <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} countMoves={currentMove} />
       </div>
       <div className="game-info">
         <ol>{sortedMoves}</ol>
